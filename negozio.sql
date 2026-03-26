@@ -19,8 +19,18 @@
 --10 Ricerca di tutti gli ordini effettuati nel mese di giugno 2024.
   SELECT * from 4CTL_ordini WHERE data_ordine LIKE '2024-06%';
 --11 Elenco dei codici seriali in magazzino associati al nome del relativo modello.
-  SELECT cod_seriale, nome from 4CTL_prodotti, 4CTL_modelli_prodotto;
+  SELECT cod_seriale, nome, p.id_modello from 4CTL_prodotti p, 4CTL_modelli_prodotto m WHERE p.id_modello = m.id_modello
 --12 Ricostruzione dello scontrino: ID ordine, cognome cliente, nome modello e seriale venduto.
-  SELECT cod_seriale, nome from 4CTL_prodotti, 4CTL_modelli_prodotto;
-
+  SELECT id_ordine, cognome, m.nome, cod_seriale 
+  from 4CTL_ordini o, 4CTL_clienti c, 4CTL_modelli_prodotto m, 4CTL_prodotti p, 4CTL_dettagli_ordine d
+  WHERE p.id_modello = m.id_modello AND c.id_cliente = o.id_cliente AND d.id_ordine = o.id_ordine AND p.id_prodotto = d.id_prodotto;
 --13 Visualizzazione dello stato della garanzia per ogni codice seriale venduto.
+  SELECT stato_garanzia, cod_seriale from 4CTL_garanzie g, 4CTL_prodotti p WHERE g.id_prodotto = p.id_prodotto
+--14 Conteggio dei pezzi fisici disponibili in magazzino per ogni categoria di prodotto.
+--15 Calcolo del totale incassato per ogni cliente basato sulla somma degli ordini effettuati.
+--16 Determinazione del prezzo medio di listino per ogni categoria di prodotto a catalogo.
+--17 Identificazione del numero di prodotti venduti per ogni tipologia di garanzia (attiva, scaduta, in assistenza).
+--18 Elenco dei clienti che hanno effettuato una spesa complessiva superiore a 2000€.
+--19 Identificazione delle categorie che hanno più di 50 prodotti registrati a catalogo.
+--20 Visualizzazione degli ordini il cui prezzo totale è superiore alla media di tutti gli ordini.
+--21 Elenco dei modelli che non sono mai stati venduti (assenti nella tabella dettagli_ordine).
